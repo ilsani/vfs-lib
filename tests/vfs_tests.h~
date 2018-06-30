@@ -1,9 +1,0 @@
-
-
-
-#ifndef VFS_TESTS_H
-#define VFS_TESTS_H
-
-extern void test_vfs_open_local_fs();
-
-#endif // VFS_TESTS_H
