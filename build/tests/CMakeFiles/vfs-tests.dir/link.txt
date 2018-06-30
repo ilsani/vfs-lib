@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/vfs-tests.dir/__/lib/vfs.c.o CMakeFiles/vfs-tests.dir/__/lib/vfs_local_fs.c.o CMakeFiles/vfs-tests.dir/vfs_tests.c.o CMakeFiles/vfs-tests.dir/vfs_local_fs.c.o CMakeFiles/vfs-tests.dir/vfs_ftp.c.o  -o ../../tests/bin/vfs-tests /usr/lib/x86_64-linux-gnu/libcmocka.so.0 

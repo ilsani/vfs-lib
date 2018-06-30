@@ -1,0 +1,8 @@
+#ifndef VFS_LOCAL_FS_H
+#define VFS_LOCAL_FS_H
+
+extern int vfs_local_fs_open();
+extern int vfs_local_fs_close();
+extern int vfs_local_fs_get_all_files();
+
+#endif // VFS_LOCAL_FS_H

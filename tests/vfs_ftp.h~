@@ -1,0 +1,7 @@
+
+#ifndef VFS_LOCAL_FS_H
+#define VFS_LOCAL_FS_H
+
+extern void test_vfs_local_fs_open();
+
+#endif // VFS_LOCAL_FS_H

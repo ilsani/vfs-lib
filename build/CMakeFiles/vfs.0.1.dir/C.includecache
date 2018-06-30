@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/vfs.h
+
+../include/vfs_local_fs.h
+vfs.h
+-
+
+/usr/home/msani/wrk/dev/vfs-lib/lib/vfs.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+vfs.h
+-
+vfs_local_fs.h
+-
+
