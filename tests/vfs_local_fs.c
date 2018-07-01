@@ -8,6 +8,7 @@
 #include <cmocka.h>
 
 #include <vfs.h>
+#include <vfs_file.h>
 
 #include "vfs_local_fs.h"
 
@@ -62,12 +63,24 @@ extern void test_vfs_local_fs_get_files() {
 
   vfs_h* vfs = get_vfs("local", "/dev/shm");
   vfs->open(vfs);
-  
-  vfs_file_search_result* result = vfs->get_files(vfs, NULL);
+
+  vfs_error err;
+  vfs_file_search_result* result = vfs->get_files(vfs, NULL, &err);
+
+  printf("n_elem => %ld\n", result->n_items);
+
+  for (int i = 0; i < result->n_items; ++i) {
+    vfs_file_list* node = result->files;
+    if (node->file) {
+      printf("%d: %s\n", i, node->file->name);
+    }
+    node = node->next;
+  }
 
   assert_non_null(result);
   assert_non_null(result->files);
   assert_true(result->n_items > 0);
+  assert_true(err == E_NO_ERR);
   
   vfs_file_search_result_free(result);
 
@@ -80,13 +93,15 @@ extern void test_vfs_local_fs_get_files() {
 extern void test_vfs_local_fs_get_txt_files() {
 
   vfs_h* vfs = get_vfs("local", "/dev/shm");
-  
   vfs->open(vfs);
-  vfs_file_search_result* result = vfs->get_files(vfs, "*.txt");
+
+  vfs_error err;
+  vfs_file_search_result* result = vfs->get_files(vfs, "*.txt", &err);
 
   assert_non_null(result);
   assert_non_null(result->files);
   assert_true(result->n_items > 0);
+  assert_true(err == E_NO_ERR);
 
   vfs_file_search_result_free(result);
 

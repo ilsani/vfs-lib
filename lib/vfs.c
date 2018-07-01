@@ -5,21 +5,18 @@
 #include <vfs.h>
 #include <vfs_local_fs.h>
 
-static int vfs_init(vfs_h* vfs, const vfs_config* config, vfs_error* error) {
+static vfs_error vfs_init(vfs_h* vfs, const vfs_config* config) {
 
   if (!config) {
-    *error = E_INVALID_CONFIG;
-    return -1;
+    return E_INVALID_CONFIG;
   }
 
   if (!config->proto || strlen(config->proto) <= 0) {
-    *error = E_INVALID_PROTOCOL;
-    return -1;
+    return E_INVALID_PROTOCOL;
   }
 
   if (!config->uri || strlen(config->uri) <= 0) {
-    *error = E_INVALID_URI;
-    return -1;
+    return E_INVALID_URI;
   }
 
   if (!strcmp(config->proto, "local")) {
@@ -38,14 +35,12 @@ static int vfs_init(vfs_h* vfs, const vfs_config* config, vfs_error* error) {
       snprintf(vfs->config->password, sizeof(vfs->config->password), "anonymous");
     }
     
-    return -1;
   }
   else {
-    *error = E_INVALID_PROTOCOL;
-    return -1;
+    return E_INVALID_PROTOCOL;
   }
 
-  return 0;
+  return E_NO_ERR;
 
 }
 
@@ -56,17 +51,18 @@ extern vfs_h* vfs_new(const vfs_config* config, vfs_error* error) {
   *error = E_NO_ERR;
 
   vfs_h* vfs = malloc(sizeof(vfs_h));
-  vfs->config = (vfs_config *) config;
 
   if (vfs == NULL) {
     *error = E_MEM;
     return NULL;
   }
 
-  if (vfs_init(vfs, config, error) < 0) {
+  vfs->config = (vfs_config *) config;
+
+  if ((*error = vfs_init(vfs, config)) != E_NO_ERR) {
     return NULL;
   }
-  
+
   return vfs;
 }
 
@@ -83,20 +79,6 @@ extern void vfs_close(vfs_h* vfs) {
     free(vfs);
     vfs = NULL;
   }
-}
-
-extern void vfs_file_search_result_free(vfs_file_search_result* result) {
-
-  if (!result) {
-    return;
-  }
-
-  if (result->files) {
-    // TODO: free result->files
-  }
-
-  free(result);
-  result = NULL;
 }
 
 

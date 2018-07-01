@@ -1,7 +1,8 @@
 #ifndef VFS_H
 #define VFS_H
 
-#define MAX_PATH (2048)
+#include <vfs_config.h>
+#include <vfs_file.h>
 
 typedef enum _vfs_error {
   
@@ -24,41 +25,17 @@ typedef struct _vfs_config {
   
 } vfs_config;
 
-typedef struct _vfs_file {
-
-  char name[MAX_PATH];
-  char store_path[MAX_PATH];
-  size_t size;
-  size_t level;
-  
-} vfs_file;
-
-typedef struct _vfs_file_list {
-
-  vfs_file* file;
-  struct _vfs_file_list* next;
-  
-} vfs_file_list;
-
-typedef struct _vfs_file_search_result {
-
-  size_t n_items;
-  vfs_file_list* files;
-
-} vfs_file_search_result;
-
 typedef struct _vfs_h {
 
   vfs_config* config;
 
   int (*open)(const struct _vfs_h* vfs);
   int (*close)(const struct _vfs_h* vfs);
-  vfs_file_search_result* (*get_files)(const struct _vfs_h* vfs, const char* pattern);
+  vfs_file_search_result* (*get_files)(const struct _vfs_h* vfs, const char* pattern, vfs_error* error);
   
 } vfs_h;
 
 extern vfs_h* vfs_new(const vfs_config* config, vfs_error* error);
 extern void vfs_close(vfs_h* vfs);
-extern void vfs_file_search_result_free(vfs_file_search_result* result);
 
 #endif // VFS_H
