@@ -4,6 +4,7 @@
 
 #include <vfs.h>
 #include <vfs_local_fs.h>
+#include <vfs_ftp.h>
 
 static vfs_error vfs_init(vfs_h* vfs, const vfs_config* config) {
 
@@ -25,8 +26,9 @@ static vfs_error vfs_init(vfs_h* vfs, const vfs_config* config) {
     vfs->get_files = vfs_local_fs_get_files;
   }
   else if (!strcmp(config->proto, "ftp")) {
-
-    // TODO: methods
+    vfs->open = vfs_ftp_open;
+    vfs->close = vfs_ftp_close;
+    vfs->get_files = vfs_ftp_get_files;
 
     if (strlen(config->username) <= 0) {
       snprintf(vfs->config->username, sizeof(vfs->config->username), "anonymous");
@@ -34,7 +36,6 @@ static vfs_error vfs_init(vfs_h* vfs, const vfs_config* config) {
     if (strlen(config->password) <= 0) {
       snprintf(vfs->config->password, sizeof(vfs->config->password), "anonymous");
     }
-    
   }
   else {
     return E_INVALID_PROTOCOL;

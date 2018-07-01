@@ -53,7 +53,7 @@ extern void test_vfs_local_fs_open() {
   vfs_h* vfs = get_vfs("local", "/dev/shm");
   int ret = vfs->open(vfs);
   
-  vfs_close(vfs);
+  vfs_close(&vfs);
 
   assert_true(ret == 0);
 }
@@ -75,7 +75,7 @@ extern void test_vfs_local_fs_get_files() {
 
   assert_null(result);
 
-  vfs_close(vfs);
+  vfs_close(&vfs);
 }
 
 extern void test_vfs_local_fs_get_txt_files() {
@@ -95,5 +95,5 @@ extern void test_vfs_local_fs_get_txt_files() {
 
   assert_null(result);
   
-  vfs_close(vfs);
+  vfs_close(&vfs);
 }

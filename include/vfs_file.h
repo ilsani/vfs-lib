@@ -1,6 +1,9 @@
 #ifndef VFS_FILE_H
 #define VFS_FILE_H
 
+#include <stdio.h>
+#include <stdbool.h>
+
 #include <vfs_config.h>
 
 typedef struct _vfs_file {
@@ -30,5 +33,6 @@ extern void vfs_file_search_result_free(vfs_file_search_result** result);
 extern vfs_file_search_result* vfs_file_search_result_alloc();
 extern void vfs_file_search_result_add_item(vfs_file_search_result* search_result, vfs_file* file);
 extern vfs_file* vfs_file_alloc(const char* name);
+extern bool is_valid_filename(const char* filename, const char* pattern);
 
 #endif // VFS_FILE_H

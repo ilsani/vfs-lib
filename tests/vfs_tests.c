@@ -20,6 +20,7 @@ int main(void) {
 
     // FTP FS
     cmocka_unit_test(test_vfs_ftp_open),
+    cmocka_unit_test(test_vfs_ftp_get_files),
   };
 
   return cmocka_run_group_tests(tests, NULL, NULL);

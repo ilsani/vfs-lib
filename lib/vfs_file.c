@@ -5,6 +5,11 @@
 #include <vfs.h>
 #include <vfs_file.h>
 
+extern bool is_valid_filename(const char* filename, const char* pattern) {
+  if (!pattern) return true;
+  return false;
+}
+
 extern vfs_file* vfs_file_alloc(const char* name) {
 
   vfs_file* file = malloc(sizeof(vfs_file));
