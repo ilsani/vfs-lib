@@ -65,15 +65,6 @@ extern void test_vfs_local_fs_get_files() {
 
   vfs_error err;
   vfs_file_search_result* result = vfs->get_files(vfs, NULL, &err);
-
-  /* printf("n_elem => %ld\n", result->n_items); */
-  /* vfs_file_list* node = result->files; */
-  /* int i = 0; */
-  /* while (node) { */
-  /*   printf("%d: %s\n", i, node->file->name); */
-  /*   i++; */
-  /*   node = node->next; */
-  /* } */
   
   assert_non_null(result);
   assert_non_null(result->files);

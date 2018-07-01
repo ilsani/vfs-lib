@@ -25,6 +25,10 @@ if (UNIT_TESTING)
   add_subdirectory("tests")
 endif (UNIT_TESTING)
 
+if (EXAMPLES)
+  add_subdirectory("examples")
+endif (EXAMPLES)
+
 # Make static library
 add_library("vfs.${APPLICATION_VERSION}" STATIC lib/vfs.c)
 

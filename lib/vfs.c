@@ -65,18 +65,20 @@ extern vfs_h* vfs_new(const vfs_config* config, vfs_error* error) {
   return vfs;
 }
 
-extern void vfs_close(vfs_h* vfs) {
+extern void vfs_close(vfs_h** vfs) {
 
-  if (vfs) {
-    vfs->close(vfs);
+  vfs_h* t = *vfs;
 
-    if (vfs->config) {
-      free(vfs->config);
-      vfs->config = NULL;
+  if (t) {
+    t->close(t);
+
+    if (t->config) {
+      free(t->config);
+      t->config = NULL;
     }
 
-    free(vfs);
-    vfs = NULL;
+    free(*vfs);
+    *vfs = NULL;
   }
 }
 

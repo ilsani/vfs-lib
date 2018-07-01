@@ -36,6 +36,6 @@ typedef struct _vfs_h {
 } vfs_h;
 
 extern vfs_h* vfs_new(const vfs_config* config, vfs_error* error);
-extern void vfs_close(vfs_h* vfs);
+extern void vfs_close(vfs_h** vfs);
 
 #endif // VFS_H
