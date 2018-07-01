@@ -19,7 +19,6 @@ extern vfs_file_search_result* vfs_file_search_result_alloc() {
 
 extern void vfs_file_search_result_add_item(vfs_file_search_result* search_result,
 					    vfs_file* file) {
-
   if (!search_result) {
     search_result = vfs_file_search_result_alloc();
     if (!search_result) {
