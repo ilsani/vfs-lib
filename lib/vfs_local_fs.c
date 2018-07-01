@@ -48,13 +48,15 @@ extern vfs_file_search_result* vfs_local_fs_get_files(const vfs_h* vfs,
 	continue;
       }
 
+      vfs_file* file = vfs_file_alloc(ent->d_name);
+
       // ent->d_name
       // ent->d_reclen
       // ent_stat.st_size
       // ent_stat.st_uid
       // ent_stat.st_gid
 
-      vfs_file_search_result_add_item(result, NULL);
+      vfs_file_search_result_add_item(result, file);
     }
 
     closedir(dir);

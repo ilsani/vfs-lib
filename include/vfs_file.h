@@ -26,8 +26,9 @@ typedef struct _vfs_file_search_result {
 
 } vfs_file_search_result;
 
-extern void vfs_file_search_result_free(vfs_file_search_result* result);
+extern void vfs_file_search_result_free(vfs_file_search_result** result);
 extern vfs_file_search_result* vfs_file_search_result_alloc();
 extern void vfs_file_search_result_add_item(vfs_file_search_result* search_result, vfs_file* file);
+extern vfs_file* vfs_file_alloc(const char* name);
 
 #endif // VFS_FILE_H

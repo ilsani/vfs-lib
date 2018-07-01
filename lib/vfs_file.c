@@ -5,6 +5,13 @@
 #include <vfs.h>
 #include <vfs_file.h>
 
+extern vfs_file* vfs_file_alloc(const char* name) {
+
+  vfs_file* file = malloc(sizeof(vfs_file));
+  snprintf(file->name, sizeof(file->name), "%s", name);
+  return file;
+}
+
 extern vfs_file_search_result* vfs_file_search_result_alloc() {
   
   vfs_file_search_result* r = malloc(sizeof(vfs_file_search_result));
@@ -35,18 +42,14 @@ extern void vfs_file_search_result_add_item(vfs_file_search_result* search_resul
       // TODO: trace error
       return;
     }
+    search_result->files->next = NULL;
+    search_result->files->file = NULL;
   }
-
-  vfs_file* new_file = malloc(sizeof(vfs_file));
-  
-  snprintf(new_file->name,
-	   sizeof(new_file->name),
-	   "FILE_1");
 
   vfs_file_list* current = search_result->files;
   
   if (!current->next && !current->file) {
-    current->file = new_file;
+    current->file = file;
   }
   else {
     while (current->next) {
@@ -54,40 +57,48 @@ extern void vfs_file_search_result_add_item(vfs_file_search_result* search_resul
     }
     vfs_file_list* node = malloc(sizeof(vfs_file_list));
     node->next = NULL;
-    node->file = new_file;
+    node->file = file;
     current->next = node;
   }
 
   search_result->n_items = search_result->n_items + 1;
 }
 
-extern void vfs_file_search_result_free(vfs_file_search_result* result) {
+extern void vfs_file_search_result_free(vfs_file_search_result** result) {
 
-  if (!result) {
+  if (!result || !(*result)) {
     return;
   }
 
-  if (result->files) {
-    vfs_file_list* head = result->files;
-    
-    if (head->file) {
-      free(head->file);
-      head->file = NULL;
-    }
+  vfs_file_search_result* vfsr = *result;
 
-    vfs_file_list* tmp;
+  if (vfsr->files) {
+    vfs_file_list* head = vfsr->files->next;
+
+    if (vfsr->files->file) {
+      free(vfsr->files->file);
+      vfsr->files->file = NULL;
+    }
+    
+    free(vfsr->files);
+    vfsr->files = NULL;
+
     while (head) {
-      tmp = head;
+      vfs_file_list* tmp = head;
       head = head->next;
+
       if (tmp->file) {
 	free(tmp->file);
 	tmp->file = NULL;
       }
+
       free(tmp);
       tmp = NULL;
     }
   }
 
-  free(result);
-  result = NULL;
+  if (result) {
+    free(*result);
+    *result = NULL;
+  }
 }
