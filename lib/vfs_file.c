@@ -8,10 +8,12 @@
 extern vfs_file_search_result* vfs_file_search_result_alloc() {
   
   vfs_file_search_result* r = malloc(sizeof(vfs_file_search_result));
+  
   if (!r) {
     // TODO: trace error
     return NULL;
   }
+  
   r->n_items = 0;
   r->files = NULL;
   return r;
