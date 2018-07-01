@@ -2,6 +2,7 @@
 *~
 build
 tests/bin
+examples/add
 
 # Prerequisites
 *.d
