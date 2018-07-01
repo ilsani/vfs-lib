@@ -1,6 +1,7 @@
 
 *.~
 build
+tests/bin
 
 # Prerequisites
 *.d

@@ -3,15 +3,15 @@
 
 #define MAX_PATH (2048)
 
-enum _vfs_error {
+typedef enum _vfs_error {
+  
   E_NO_ERR,
   E_MEM,
   E_INVALID_CONFIG,
   E_INVALID_PROTOCOL,
   E_INVALID_URI
-};
-
-typedef enum _vfs_error vfs_error;
+  
+} vfs_error;
 
 typedef struct _vfs_config {
 
@@ -28,8 +28,8 @@ typedef struct _vfs_file {
 
   char name[MAX_PATH];
   char store_path[MAX_PATH];
-  int size;
-  int level;
+  size_t size;
+  size_t level;
   
 } vfs_file;
 
@@ -42,7 +42,7 @@ typedef struct _vfs_file_list {
 
 typedef struct _vfs_file_search_result {
 
-  int n_items;
+  size_t n_items;
   vfs_file_list* files;
 
 } vfs_file_search_result;
