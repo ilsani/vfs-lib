@@ -11,11 +11,11 @@ static vfs_error vfs_init(vfs_h* vfs, const vfs_config* config) {
     return E_INVALID_CONFIG;
   }
 
-  if (!config->proto || strlen(config->proto) <= 0) {
+  if (strlen(config->proto) <= 0) {
     return E_INVALID_PROTOCOL;
   }
 
-  if (!config->uri || strlen(config->uri) <= 0) {
+  if (strlen(config->uri) <= 0) {
     return E_INVALID_URI;
   }
 
@@ -28,10 +28,10 @@ static vfs_error vfs_init(vfs_h* vfs, const vfs_config* config) {
 
     // TODO: methods
 
-    if (!config->username) {
+    if (strlen(config->username) <= 0) {
       snprintf(vfs->config->username, sizeof(vfs->config->username), "anonymous");
     }
-    if (!config->password) {
+    if (strlen(config->password) <= 0) {
       snprintf(vfs->config->password, sizeof(vfs->config->password), "anonymous");
     }
     

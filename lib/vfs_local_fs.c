@@ -24,7 +24,7 @@ extern vfs_file_search_result* vfs_local_fs_get_files(const vfs_h* vfs,
 						      vfs_error* error) {
   *error = E_NO_ERR;
 
-  if (!vfs->config->uri || strlen(vfs->config->uri) <= 0) {
+  if (strlen(vfs->config->uri) <= 0) {
     *error = E_INVALID_URI;
     return NULL;
   }
