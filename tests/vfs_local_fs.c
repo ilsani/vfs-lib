@@ -31,8 +31,9 @@ static vfs_h* get_vfs(const char* proto, const char* uri) {
     snprintf(conf->uri, sizeof(conf->uri), "%s", "/dev/shm");
   }
 
-  vfs_h* vfs = vfs_new(conf);
-  
+  vfs_error err;
+  vfs_h* vfs = vfs_new(conf, &err);
+
   assert_non_null(vfs);
   assert_non_null(vfs->open);
   assert_non_null(vfs->close);
@@ -69,6 +70,10 @@ extern void test_vfs_local_fs_get_files() {
   assert_true(result->n_items > 0);
   
   vfs_file_search_result_free(result);
+
+  assert_null(result->files);
+  assert_null(result);
+  
   vfs_close(vfs);
 }
 
@@ -84,5 +89,9 @@ extern void test_vfs_local_fs_get_txt_files() {
   assert_true(result->n_items > 0);
 
   vfs_file_search_result_free(result);
+
+  assert_null(result->files);
+  assert_null(result);
+  
   vfs_close(vfs);
 }

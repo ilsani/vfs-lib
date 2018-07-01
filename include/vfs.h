@@ -3,6 +3,16 @@
 
 #define MAX_PATH (2048)
 
+enum _vfs_error {
+  E_NO_ERR,
+  E_MEM,
+  E_INVALID_CONFIG,
+  E_INVALID_PROTOCOL,
+  E_INVALID_URI
+};
+
+typedef enum _vfs_error vfs_error;
+
 typedef struct _vfs_config {
 
   // char connection_string[MAX_PATH];
@@ -47,7 +57,7 @@ typedef struct _vfs_h {
   
 } vfs_h;
 
-extern vfs_h* vfs_new(const vfs_config* config);
+extern vfs_h* vfs_new(const vfs_config* config, vfs_error* error);
 extern void vfs_close(vfs_h* vfs);
 extern void vfs_file_search_result_free(vfs_file_search_result* result);
 

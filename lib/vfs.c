@@ -5,64 +5,31 @@
 #include <vfs.h>
 #include <vfs_local_fs.h>
 
-/* static void error_vfs_connection_string_is_invalid() { */
-/*   fprintf(stderr, "Invalid connection string.\n"); */
-/* } */
+static int vfs_init(vfs_h* vfs, const vfs_config* config, vfs_error* error) {
 
-/* static char* vfs_connection_string_get_uri(const char* connection_string, */
-/* 					   const char* pattern) { */
-  
-/*   if (!connection_string || !pattern) { */
-/*     return NULL; */
-/*   } */
-  
-/*   char* ptr = strstr(connection_string, pattern) + strlen(pattern); */
+  if (!config) {
+    *error = E_INVALID_CONFIG;
+    return -1;
+  }
 
-/*   if (!ptr || ptr[0] == '\0') { */
-/*     return NULL; */
-/*   } */
+  if (!config->proto || strlen(config->proto) <= 0) {
+    *error = E_INVALID_PROTOCOL;
+    return -1;
+  }
 
-/*   size_t uri_len = strlen(ptr) + 1; */
-/*   char* uri = malloc(uri_len * sizeof(char)); */
-  
-/*   if (!uri) { */
-/*     fprintf(stderr, "Unable to get uri from connection string due to a " */
-/* 	    "malloc() error.\n"); */
-/*     return NULL; */
-/*   } */
-
-/*   snprintf(uri, uri_len, ptr); */
-
-/*   /\* int i = 0; *\/ */
-/*   /\* char* p = uri; *\/ */
-/*   /\* while (1) { *\/ */
-/*   /\*   printf("[%d] => %c\n", i, *p++); *\/ */
-/*   /\*   i = i + 1; *\/ */
-/*   /\*   if (!*p) { *\/ */
-/*   /\*     printf("[%d] => EOF\n\n", i); *\/ */
-/*   /\*     break; *\/ */
-/*   /\*   } *\/ */
-/*   /\* } *\/ */
-    
-/*   return uri; */
-/* } */
-
-static int vfs_init(vfs_h* vfs, const vfs_config* config) {
-
-  if (!config || !config->proto || !config->uri) {
+  if (!config->uri || strlen(config->uri) <= 0) {
+    *error = E_INVALID_URI;
     return -1;
   }
 
   if (!strcmp(config->proto, "local")) {
-    
     vfs->open = vfs_local_fs_open;
     vfs->close = vfs_local_fs_close;
     vfs->get_files = vfs_local_fs_get_files;
-
   }
   else if (!strcmp(config->proto, "ftp")) {
 
-    // TODO: methods and settings
+    // TODO: methods
 
     if (!config->username) {
       snprintf(vfs->config->username, sizeof(vfs->config->username), "anonymous");
@@ -72,10 +39,9 @@ static int vfs_init(vfs_h* vfs, const vfs_config* config) {
     }
     
     return -1;
-    
   }
   else {
-    fprintf(stderr, "Invalid protocol.\n");
+    *error = E_INVALID_PROTOCOL;
     return -1;
   }
 
@@ -85,20 +51,19 @@ static int vfs_init(vfs_h* vfs, const vfs_config* config) {
 
 // //////////////////////////////////////////////////////////////////////////
 
-extern vfs_h* vfs_new(const vfs_config* config) {
+extern vfs_h* vfs_new(const vfs_config* config, vfs_error* error) {
+
+  *error = E_NO_ERR;
 
   vfs_h* vfs = malloc(sizeof(vfs_h));
   vfs->config = (vfs_config *) config;
 
   if (vfs == NULL) {
-    fprintf(stderr, "Unable to create new VFS handler due to a malloc() "
-	    "error.\n");
+    *error = E_MEM;
     return NULL;
   }
 
-  if (vfs_init(vfs, config) < 0) {
-    fprintf(stderr, "Unable to create new VFS handler due to a "
-	    "configuration error.\n");
+  if (vfs_init(vfs, config, error) < 0) {
     return NULL;
   }
   
@@ -111,7 +76,6 @@ extern void vfs_close(vfs_h* vfs) {
     vfs->close(vfs);
 
     if (vfs->config) {
-      
       free(vfs->config);
       vfs->config = NULL;
     }
@@ -129,13 +93,10 @@ extern void vfs_file_search_result_free(vfs_file_search_result* result) {
 
   if (result->files) {
     // TODO: free result->files
-
-    
   }
 
   free(result);
   result = NULL;
-  
 }
 
 
