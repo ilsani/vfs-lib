@@ -49,7 +49,6 @@ static vfs_error vfs_init(vfs_h* vfs, const vfs_config* config) {
 extern vfs_h* vfs_new(const vfs_config* config, vfs_error* error) {
 
   *error = E_NO_ERR;
-
   vfs_h* vfs = malloc(sizeof(vfs_h));
 
   if (vfs == NULL) {

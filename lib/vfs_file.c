@@ -20,13 +20,6 @@ extern vfs_file_search_result* vfs_file_search_result_alloc() {
 extern void vfs_file_search_result_add_item(vfs_file_search_result* search_result,
 					    vfs_file* file) {
 
-  /* for (int i = 0; i < search_result->n_items; ++i) { */
-  /*   vfs_file_list* node = search_result->files; */
-  /*   printf("%d: %s\n", i, node->file->name); */
-  /*   node = node->next; */
-  /* } */
-  /* printf("===================================\n\n"); */
-      
   if (!search_result) {
     search_result = vfs_file_search_result_alloc();
     if (!search_result) {

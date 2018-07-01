@@ -15,7 +15,6 @@
 static vfs_h* get_vfs(const char* proto, const char* uri) {
 
   vfs_config* conf = malloc(sizeof(vfs_config));
-  
   assert_non_null(conf);
 
   if (proto) {

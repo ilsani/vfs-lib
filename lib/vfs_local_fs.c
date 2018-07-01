@@ -32,11 +32,12 @@ extern vfs_file_search_result* vfs_local_fs_get_files(const vfs_h* vfs,
   DIR* dir;
 
   if ((dir = opendir(vfs->config->uri)) != NULL) {
+    
     struct dirent* ent;
-
     vfs_file_search_result* result = vfs_file_search_result_alloc();
     
     while ((ent = readdir(dir)) != NULL) {
+      
       char path[strlen(ent->d_name) + strlen(vfs->config->uri) + 1];
       snprintf(path, sizeof(path), "%s/%s", vfs->config->uri, ent->d_name);
 
