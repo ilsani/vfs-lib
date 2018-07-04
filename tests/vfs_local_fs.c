@@ -65,7 +65,7 @@ extern void test_vfs_local_fs_get_files() {
 
   vfs_error err;
   vfs_file_search_result* result = vfs->get_files(vfs, NULL, &err);
-  
+
   assert_non_null(result);
   assert_non_null(result->files);
   assert_true(result->n_items > 0);
@@ -89,7 +89,7 @@ extern void test_vfs_local_fs_get_txt_files() {
   assert_non_null(result);
   assert_non_null(result->files);
   assert_true(result->n_items > 0);
-  assert_true(err == E_NO_ERR);
+  assert_true(err == E_NO_ERR);  
 
   vfs_file_search_result_free(&result);
 
